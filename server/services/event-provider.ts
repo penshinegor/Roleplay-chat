@@ -1,16 +1,17 @@
 import {TypeOfEvent} from '../../components/enums/event-enum';
-import EventService from './event-service';
+import EventController from '../controllers/event-controller';
+
 
 class EventProvider {
-    public static executeEvent(event, eventService: EventService, ws: WebSocket) {
+    public static executeEvent(event, eventController: EventController, ws: WebSocket) {
         if (event.type === TypeOfEvent.Attack) {
-            eventService.attack(event, ws);
+            eventController.attackController(event, ws);
         } else if (event.type === TypeOfEvent.Ability) {
-            eventService.applyAbility(event, ws);
+            eventController.applyAbilityController(event, ws);
         } else if (event.type === TypeOfEvent.Message) {
-            eventService.sendMessage(event);
+            eventController.sendMessageController(event, ws);
         } else {
-            eventService.restore(ws);
+            eventController.restoreController(ws);
         }
     }
 }

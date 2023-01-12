@@ -19,6 +19,7 @@ function eventValidation(event) {
             throw new OwnError('Missing parameter "message"', null);
         }
     }
+    return event;
 }
 
 export default eventValidation;

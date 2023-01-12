@@ -1,33 +1,79 @@
 import EventService from '../services/event-service';
-import errorHandler from '../error-handler/error-handler';
-import eventValidation from '../middleware/event-validation-middleware';
-import EventProvider from '../services/event-provider';
+import {OwnError} from '../error-handler/own-error';
 
 let eventService = new EventService();
 
 class EventController {
-    public listenEvents(wss) {
-        wss.on('connection', ws => {
 
-            eventService.connect(ws);
+    public connectController(ws) {
+        const { listOfConnections, currentId } = eventService.connect(ws);
 
-            ws.on('message', (event) => {
-                try {
-                    eventValidation(event);
-                    EventProvider.executeEvent(event, eventService, ws);
+        listOfConnections.forEach((client: WebSocket) => {
+            if (client !== ws) {
+                client.send(`New user has been connected by ${currentId} id`);
+            }
+        });
+        if (listOfConnections.size !== 1) {
+            listOfConnections.forEach((client: WebSocket, key) => {
+                if (client !== ws) {
+                    ws.send(`Session of client ${key}`);
                 }
-                catch (err) {
-                    errorHandler(err, null, ws, null);
-                }
             });
+        }
+        console.log('New user has been connected');
+    }
+    public closeController(ws) {
+        eventService.closeConnection(ws);
+        console.log('One of users has been disconnected');
+    }
 
-            ws.on('close', () => {
-                eventService.close(ws);
-            });
+    public attackController(event, ws) {
+        const { listOfConnections, changedSessionOfUser, currentId} = eventService.attack(event.userId, ws);
 
-            ws.on('error', (error: Error) => {
-                console.log('The server sent an error', error);
-            });
+        if (!changedSessionOfUser) {
+            throw new OwnError('Impossibility to attack this user', null);
+        }
+        listOfConnections.forEach((client: WebSocket, key) => {
+            if (key === event.userId) {
+                client.send(`You were attacked from user by ${currentId} id`);
+            }
+            client.send(`Changed session from attack of user by ${event.userId} id`);
+        });
+    }
+    public applyAbilityController(event, ws) {
+        const { listOfConnections, changedSessionOfUser, currentId} = eventService.applyAbility(event.userId, ws);
+
+        if (!changedSessionOfUser) {
+            throw new OwnError('Impossibility to apply ability on this user', null);
+        }
+        listOfConnections.forEach((client: WebSocket, key) => {
+            if (key === event.userId) {
+                client.send(`You were applied ability from user by ${currentId} id`);
+            }
+            client.send(`Changed session from applying ability of user by ${event.userId} id`);
+        });
+    }
+    public sendMessageController(event, ws) {
+        const { listOfConnections, abilitySendMessage } = eventService.checkingAbilitySendingMessage(ws);
+
+        if (!abilitySendMessage) {
+            throw new OwnError('Impossibility to send message', null);
+        }
+        listOfConnections.forEach((client: WebSocket) => {
+            client.send(event.message);
+        });
+    }
+    public restoreController(ws) {
+        const { listOfConnections, changedSessionOfUser, currentId } = eventService.restore(ws);
+
+        if (!changedSessionOfUser) {
+            throw new OwnError('Impossibility to restore', null);
+        }
+        listOfConnections.forEach((client: WebSocket) => {
+            if (client === ws) {
+                client.send('You were restored');
+            }
+            client.send(`Updated session from restoring of user by ${currentId} id`);
         });
     }
 }
