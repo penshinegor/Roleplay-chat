@@ -1,30 +1,31 @@
 import UserService from '../services/user-service';
+import {OwnError} from '../error-handler/own-error';
+import {Request, Response} from 'express';
 
 const userService = new UserService();
 
-const loginController = (req, res) => {
-    const JWT =  userService.login(req);
-    if (!JWT) {
-        res.status(500).send('Login error');
-        return;
+class UserController {
+    public loginController = (req: Request, res: Response) => {
+        const JWT =  userService.login(req);
+        if (!JWT) {
+            throw new OwnError('Server login error', 500);
+        }
+        res.json(JWT);
     }
-    res.json(JWT);
-}
-const signUpController = (req, res) => {
-    const user = userService.signUp(req);
-    if (!user) {
-        res.status(500).send('Signing up error');
-        return;
+    public signUpController = (req: Request, res: Response) => {
+        const user = userService.signUp(req);
+        if (!user) {
+            throw new OwnError('Server signing up error', 500);
+        }
+        res.json(user);
     }
-    res.json(user);
-}
-const updateInfoController = (req, res) => {
-    const updateUser = userService.updateInfo(req);
-    if (!updateUser) {
-        res.status(500).send('Updating info error');
-        return;
+    public updateInfoController = (req: Request, res: Response) => {
+        const updateUser = userService.updateInfo(req);
+        if (!updateUser) {
+            throw new OwnError('Server updating info error', 500);
+        }
+        res.json(updateUser);
     }
-    res.json(updateUser);
 }
 
-export {loginController, signUpController, updateInfoController};
+export default UserController;

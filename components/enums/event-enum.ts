@@ -1,0 +1,1 @@
+export enum TypeOfEvent { Attack = 'attack', Ability = 'ability', Message = 'message', Restore = 'restore' }

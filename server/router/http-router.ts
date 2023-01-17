@@ -1,13 +1,15 @@
 import {Router} from 'express';
-import {loginController, signUpController, updateInfoController} from '../controllers/user-controller';
+import UserController from '../controllers/user-controller';
 import {loginValidation, signUpValidation, updateInfoValidation} from '../middleware/user-validation-middleware';
-import {getListOfHeroesController} from '../controllers/class-controller';
+import ClassController from '../controllers/class-controller';
 
-const router = new Router();
+const router: Router = new Router();
+const classController = new ClassController();
+const userController = new UserController();
 
-router.post('/login', loginValidation, loginController);
-router.post('/signup',signUpValidation, signUpController);
-router.put('/update', updateInfoValidation, updateInfoController);
-router.get('/heroes', getListOfHeroesController);
+router.post('/login', loginValidation, userController.loginController);
+router.post('/signup',signUpValidation, userController.signUpController);
+router.put('/update', updateInfoValidation, userController.updateInfoController);
+router.get('/heroes', classController.getListOfHeroesController);
 
 export default router;
