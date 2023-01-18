@@ -1,4 +1,4 @@
-import {KindOfAdvantage} from '../components/enums/heroes-enums';
+import {KindOfAdvantage, TypeOfAbility, TypeOfAttack} from '../components/enums/heroes-enums';
 import {Hero} from '../components/abstract-classes/hero';
 
 const HISTORY_OF_THIEF = 'Fear is the mother of rumor, and tales of Gondar\'s origins are nothing but hearsay. ' +
@@ -12,7 +12,7 @@ class Thief extends Hero {
         super(
             100,
             HISTORY_OF_THIEF,
-            { Attack: 'Firing from trusty Bow', Ability: 'Running away for invulnerability' },
+            { Attack: TypeOfAttack.FiringFromTrustyBow, Ability: TypeOfAbility.RunningAwayForInvulnerability },
             KindOfAdvantage.Agility
         )
     }

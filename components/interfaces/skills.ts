@@ -1,4 +1,6 @@
+import {TypeOfAbility, TypeOfAttack} from '../enums/heroes-enums';
+
 export interface Skills {
-    Attack: string,
-    Ability: string
+    Attack: TypeOfAttack,
+    Ability: TypeOfAbility
 }

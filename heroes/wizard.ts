@@ -1,4 +1,4 @@
-import {KindOfAdvantage} from '../components/enums/heroes-enums';
+import {KindOfAdvantage, TypeOfAbility, TypeOfAttack} from '../components/enums/heroes-enums';
 import {Hero} from '../components/abstract-classes/hero';
 
 const HISTORY_OF_WIZARD = 'Carl the Wizard is the one of the few remaining magicians who still practices the ancient sorcery of Invoke, ' +
@@ -10,7 +10,7 @@ class Wizard extends Hero {
         super(
             80,
             HISTORY_OF_WIZARD,
-            { Attack: 'Launching Fireballs', Ability: 'Hexing the hero' },
+            { Attack: TypeOfAttack.LaunchingFireballs, Ability: TypeOfAbility.HexingTheHero },
             KindOfAdvantage.Intelligence
         )
     }
