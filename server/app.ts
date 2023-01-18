@@ -1,9 +1,10 @@
 import {WebSocket} from 'ws';
 import server from './http';
 import EventController from './controllers/event-controller';
-import eventValidation from './middleware/event-validation-middleware';
 import EventProvider from './services/event-provider';
+import eventValidation from './middleware/event-validation-middleware';
 import errorHandler from './error-handler/error-handler';
+import {verifyToken} from './middleware/token-validation-middleware';
 
 const PORT = 8080;
 
@@ -14,9 +15,13 @@ server.listen(8080, () => {
 const wss: WebSocket = new WebSocket.Server({ server });
 const eventController = new EventController();
 
-wss.on('connection', ws => {
-
-    eventController.connectController(ws);
+wss.on('connection', (ws, req) => {
+    try {
+        verifyToken(req, ws, null);
+        eventController.connectController(ws);
+    } catch (err) {
+        errorHandler(err, null, ws, null);
+    }
 
     ws.on('message', (event) => {
         try {

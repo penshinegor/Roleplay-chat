@@ -6,11 +6,11 @@ const userService = new UserService();
 
 class UserController {
     public loginController = (req: Request, res: Response) => {
-        const JWT =  userService.login(req);
-        if (!JWT) {
+        const token =  userService.login(req);
+        if (!token) {
             throw new OwnError('Server login error', 500);
         }
-        res.json(JWT);
+        res.json({token: token});
     }
     public signUpController = (req: Request, res: Response) => {
         const user = userService.signUp(req);
