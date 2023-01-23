@@ -5,22 +5,22 @@ import {Request, Response} from 'express';
 const userService = new UserService();
 
 class UserController {
-    public loginController = (req: Request, res: Response) => {
-        const token =  userService.login(req);
+    public loginController = async (req: Request, res: Response) => {
+        const token =  await userService.login(req);
         if (!token) {
             throw new OwnError('Server login error', 500);
         }
         res.json({token: token});
     }
-    public signUpController = (req: Request, res: Response) => {
-        const user = userService.signUp(req);
+    public signUpController = async (req: Request, res: Response) => {
+        const user = await userService.signUp(req);
         if (!user) {
             throw new OwnError('Server signing up error', 500);
         }
         res.json(user);
     }
-    public updateInfoController = (req: Request, res: Response) => {
-        const updateUser = userService.updateInfo(req);
+    public updateInfoController = async (req: Request, res: Response) => {
+        const updateUser = await userService.updateInfo(req);
         if (!updateUser) {
             throw new OwnError('Server updating info error', 500);
         }
