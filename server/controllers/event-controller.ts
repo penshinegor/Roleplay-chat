@@ -4,7 +4,6 @@ import {OwnError} from '../error-handler/own-error';
 let eventService = new EventService();
 
 class EventController {
-
     public connectController(ws) {
         const { listOfConnections, currentId } = eventService.connect(ws);
 
@@ -31,7 +30,7 @@ class EventController {
         const { listOfConnections, changedSessionOfUser, currentId} = eventService.attack(event.userId, ws);
 
         if (!changedSessionOfUser) {
-            throw new OwnError('Impossibility to attack this user', null);
+            throw new OwnError('Impossibility to attack this user', 1011);
         }
         listOfConnections.forEach((client: WebSocket, key) => {
             if (key === event.userId) {
@@ -44,7 +43,7 @@ class EventController {
         const { listOfConnections, changedSessionOfUser, currentId} = eventService.applyAbility(event.userId, ws);
 
         if (!changedSessionOfUser) {
-            throw new OwnError('Impossibility to apply ability on this user', null);
+            throw new OwnError('Impossibility to apply ability on this user', 1011);
         }
         listOfConnections.forEach((client: WebSocket, key) => {
             if (key === event.userId) {
@@ -57,7 +56,7 @@ class EventController {
         const { listOfConnections, abilitySendMessage } = eventService.checkingAbilitySendingMessage(ws);
 
         if (!abilitySendMessage) {
-            throw new OwnError('Impossibility to send message', null);
+            throw new OwnError('Impossibility to send message', 1011);
         }
         listOfConnections.forEach((client: WebSocket) => {
             client.send(event.message);
@@ -67,7 +66,7 @@ class EventController {
         const { listOfConnections, changedSessionOfUser, currentId } = eventService.restore(ws);
 
         if (!changedSessionOfUser) {
-            throw new OwnError('Impossibility to restore', null);
+            throw new OwnError('Impossibility to restore', 1011);
         }
         listOfConnections.forEach((client: WebSocket) => {
             if (client === ws) {
@@ -76,6 +75,35 @@ class EventController {
             client.send(`Updated session from restoring of user by ${currentId} id`);
         });
     }
+
+    // public listenEvents(wss) {
+    //     wss.on('connection', (ws, req) => {
+    //         try {
+    //             verifyToken(req, ws, null);
+    //             eventService.connect(ws);
+    //         } catch (err) {
+    //             errorHandler(err, null, ws, null);
+    //         }
+    //
+    //         ws.on('message', (event) => {
+    //             try {
+    //                 eventValidation(event);
+    //                 EventProvider.executeEvent(event, eventService, ws);
+    //             }
+    //             catch (err) {
+    //                 errorHandler(err, null, ws, null);
+    //             }
+    //         });
+    //
+    //         ws.on('close', () => {
+    //             eventService.close(ws);
+    //         });
+    //
+    //         ws.on('error', (error: Error) => {
+    //             console.log('The server sent an error', error);
+    //         });
+    //     });
+    // }
 }
 
 export default EventController;

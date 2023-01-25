@@ -1,4 +1,4 @@
-import {KindOfAdvantage} from '../components/enums/heroes-enums';
+import {KindOfAdvantage, TypeOfAbility, TypeOfAttack} from '../components/enums/heroes-enums';
 import {Hero} from '../components/abstract-classes/hero';
 
 const HISTORY_OF_DRAGON_WARRIOR = 'As Sir Davion slew Slyrak in arranged combat, the Eldwurm\'s blood mingled with his own, sealing their essences together. ' +
@@ -10,7 +10,7 @@ class DragonWarrior extends Hero {
         super(
             200,
             HISTORY_OF_DRAGON_WARRIOR,
-            { Attack: 'Hitting fire Swords', Ability: 'Defensing by shield from physical damage' },
+            { Attack: TypeOfAttack.HittingFireSwords, Ability: TypeOfAbility.DefensingFromPhysicalDamage },
             KindOfAdvantage.Strength
         )
     }

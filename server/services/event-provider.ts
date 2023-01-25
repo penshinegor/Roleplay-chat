@@ -1,7 +1,6 @@
 import {TypeOfEvent} from '../../components/enums/event-enum';
 import EventController from '../controllers/event-controller';
 
-
 class EventProvider {
     public static executeEvent(event, eventController: EventController, ws: WebSocket) {
         if (event.type === TypeOfEvent.Attack) {
