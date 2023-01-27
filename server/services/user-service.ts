@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 import UserProvider from './user-provider';
 import UserRepository from '../../database/repositories/user-repository';
-import {postgreDB} from '../../database/database';
+import {postgreDB} from '../../database/postgre-database';
 import {OwnError} from '../error-handler/own-error';
 
 const userRepository = new UserRepository(postgreDB);

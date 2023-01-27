@@ -10,7 +10,7 @@ class DragonWarrior extends Hero {
         super(
             200,
             HISTORY_OF_DRAGON_WARRIOR,
-            { Attack: TypeOfAttack.HittingFireSwords, Ability: TypeOfAbility.DefensingFromPhysicalDamage },
+            { Attack: TypeOfAttack.HittingFireSwords, Ability: TypeOfAbility.DefendingFromPhysicalDamage },
             KindOfAdvantage.Strength
         )
     }

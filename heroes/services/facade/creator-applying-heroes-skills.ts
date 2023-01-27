@@ -1,4 +1,4 @@
-import {TypeOfHero} from '../../components/enums/heroes-enums';
+import {TypeOfHero} from '../../../components/enums/heroes-enums';
 import HeroesProvider from '../provider/heroes-provider';
 
 class CreatorApplyingHeroesSkills {

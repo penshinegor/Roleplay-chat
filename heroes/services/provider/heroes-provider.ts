@@ -1,8 +1,8 @@
-import {TypeOfHero} from '../../components/enums/heroes-enums';
-import DragonWarrior from '../../heroes/dragon-warrior';
-import Thief from '../../heroes/thief';
-import Wizard from '../../heroes/wizard';
-import Hero from '../../components/abstract-classes/hero';
+import {TypeOfHero} from '../../../components/enums/heroes-enums';
+import DragonWarrior from '../../dragon-warrior';
+import Thief from '../../thief';
+import Wizard from '../../wizard';
+import Hero from '../../../components/abstract-classes/hero';
 
 class HeroesProvider {
     public static createHero(typeOfHero: TypeOfHero): Hero {
