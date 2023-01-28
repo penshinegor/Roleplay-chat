@@ -4,6 +4,7 @@ import {postgreDB} from '../../database/postgre-database';
 import {OwnError} from '../error-handler/own-error';
 import {TypeOfAbility, TypeOfAttack} from '../../components/enums/heroes-enums';
 import CreatorApplyingHeroesSkills from '../../heroes/services/creator-applying-heroes-skills';
+import redisClient from '../../database/redis-client';
 
 let listOfConnections = new Map();
 
@@ -18,11 +19,12 @@ class EventService {
         const userSession = await mongoRepository.createUserSession({ username: userAndClass.username, hp: userAndClass.health, statuses: [] });
         listOfConnections.set(userSession.username, ws);
         const allSessions = await mongoRepository.getAllUserSessions();
-
+        const messageCache = await redisClient.lRange('message', 0, -1);
         return {
             listOfConnections,
             currentId: userSession._id,
-            allSessions
+            allSessions,
+            messageCache
         };
     }
     public async closeConnection(ws) {
@@ -159,6 +161,19 @@ class EventService {
             newUserSession,
             currentId: newUserSession._id.toString()
         }
+    }
+
+    public async cacheMessage(message: string) {
+        if (await redisClient.lLen('message') === 10) {
+            await redisClient.lPop('message');
+            await redisClient.rPush('message', message);
+            return;
+        }
+        if (await redisClient.lLen('message') === 0) {
+            await redisClient.lPush('message', message);
+            return;
+        }
+        await redisClient.rPush('message', message);
     }
 }
 

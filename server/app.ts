@@ -8,6 +8,7 @@ import errorHandler from './error-handler/error-handler';
 import {verifyToken} from './middleware/token-validation-middleware';
 import * as mongoose from 'mongoose';
 import MongoRepository from '../database/repositories/mongo-repository';
+import redisClient from '../database/redis-client';
 
 const PORT = 8080;
 
@@ -15,6 +16,9 @@ const start = async () => {
     await mongoose.connect(process.env.MONGO_DATABASE_URL).catch(err => {
         console.log(err);
     });
+    await redisClient.connect().catch(err => {
+        console.log(err);
+    })
     server.listen(8080, () => {
         console.log(`Our server has been started on port ${PORT}...`);
     });
@@ -61,11 +65,17 @@ const gracefulShutdown = () => {
     console.info('SIGINT signal received.');
     console.log('Closing http server.');
     wss.clients.forEach(client => {
-        client.send('The server was closed and all sessions were deleted');
+        client.send('The server was closed and all sessions and cache were deleted');
         return client.terminate();
     });
     server.close(async () => {
         console.log('Http server closed.');
+        await redisClient.del('message').then(() => {
+            console.log('Redis cache was deleted');
+        });
+        await redisClient.quit().then(() => {
+            console.log('Quited from Redis.');
+        });
         await mongoRepository.deleteAllSessions().then(() => {
             console.log('Session was deleted.');
         });
