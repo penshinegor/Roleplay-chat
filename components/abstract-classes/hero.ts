@@ -6,12 +6,14 @@ export abstract class Hero {
     private heroStory: string;
     private skills: Skills;
     private advantage: KindOfAdvantage;
+    private damage: number
 
-    constructor(health: number, heroStory: string, skills: Skills, advantage: KindOfAdvantage) {
+    constructor(health: number, heroStory: string, skills: Skills, advantage: KindOfAdvantage, damage: number) {
         this.health = health;
         this.heroStory = heroStory;
         this.skills = skills;
         this.advantage = advantage;
+        this.damage = damage;
     }
 
     getHealth(): number {
@@ -26,9 +28,20 @@ export abstract class Hero {
             `Kind of attack: ${this.skills.Attack}\n` +
             `Ability: ${this.skills.Ability}`;
     }
+    getDamage(): number {
+        return this.damage;
+    }
+    getSkills(): Skills {
+        return this.skills;
+    }
 
-    abstract attack(): any;
-    abstract applyAbility(): any;
+    attack(health: number): number {
+        return health - this.getDamage();
+    }
+    applyAbility(statuses: number[]): number[] {
+        statuses.push(this.getSkills().Ability);
+        return statuses;
+    }
 }
 
 export default Hero;

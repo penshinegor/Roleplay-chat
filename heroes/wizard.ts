@@ -11,12 +11,10 @@ class Wizard extends Hero {
             80,
             HISTORY_OF_WIZARD,
             { Attack: TypeOfAttack.LaunchingFireballs, Ability: TypeOfAbility.HexingTheHero },
-            KindOfAdvantage.Intelligence
+            KindOfAdvantage.Intelligence,
+            100
         )
     }
-
-    applyAbility(): any { }
-    attack(): any { }
 }
 
 export default Wizard;

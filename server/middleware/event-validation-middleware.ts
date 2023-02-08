@@ -10,7 +10,7 @@ function eventValidation(event) {
         throw new OwnError('Wrong type of event', 1011);
     }
     if (event.type === TypeOfEvent.Attack || event.type === TypeOfEvent.Ability) {
-        if (!event.userId || (event.userId && typeof event.userId !== 'number')) {
+        if (!event.userId || (event.userId && typeof event.userId !== 'string')) {
             throw new OwnError('Wrong type of user Id or missing parameter', 1011);
         }
     }

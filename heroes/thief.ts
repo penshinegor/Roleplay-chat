@@ -13,12 +13,10 @@ class Thief extends Hero {
             100,
             HISTORY_OF_THIEF,
             { Attack: TypeOfAttack.FiringFromTrustyBow, Ability: TypeOfAbility.RunningAwayForInvulnerability },
-            KindOfAdvantage.Agility
+            KindOfAdvantage.Agility,
+            25
         )
     }
-
-    applyAbility(): any { }
-    attack(): any { }
 }
 
 export default Thief;

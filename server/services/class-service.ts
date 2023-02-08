@@ -1,5 +1,5 @@
 import ClassRepository from '../../database/repositories/class-repository';
-import {postgreDB} from '../../database/database';
+import {postgreDB} from '../../database/postgre-database';
 import {TypeOfAbility, TypeOfAttack} from '../../components/enums/heroes-enums';
 
 const classRepository = new ClassRepository(postgreDB);
@@ -9,7 +9,7 @@ class ClassService {
         const response = await classRepository.getListOfClasses()
         const list = response.rows;
         list.forEach(hero => {
-            if (hero.attack_type === TypeOfAttack.HittingFireSwords && hero.ability === TypeOfAbility.DefensingFromPhysicalDamage) {
+            if (hero.attack_type === TypeOfAttack.HittingFireSwords && hero.ability === TypeOfAbility.DefendingFromPhysicalDamage) {
                 hero.attack_type = 'Hitting fire Swords';
                 hero.ability = 'Defensing by shield from physical damage';
             } else if (hero.attack_type === TypeOfAttack.FiringFromTrustyBow && hero.ability === TypeOfAbility.RunningAwayForInvulnerability) {

@@ -17,7 +17,9 @@ const verifyToken = (req, res, next) => {
         if (next) {
             req.user = payload;
             next();
+            return;
         }
+        req.user = payload;
     });
 };
 

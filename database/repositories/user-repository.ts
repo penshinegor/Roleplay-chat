@@ -41,6 +41,20 @@ class UserRepository {
             [user_id]
         );
     }
+
+    public async getUserAndClassByUserId(user_id: number) {
+        return await this.database.query(
+            'SELECT u.id, u.username, c.name, c.health, c.attack_type, c.ability FROM users as u LEFT JOIN classes as c ON  u.class_id = c.id WHERE u.id = $1',
+            [user_id]
+            );
+    }
+
+    public async getUserAndClassByUsername(username: string) {
+        return await this.database.query(
+            'SELECT u.id, u.username, c.name, c.health, c.damage, c.attack_type, c.ability FROM users as u LEFT JOIN classes as c ON  u.class_id = c.id WHERE u.username = $1',
+            [username]
+        );
+    }
 }
 
 export default UserRepository;
