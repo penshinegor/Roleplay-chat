@@ -42,7 +42,7 @@ All links provided above. So messages are sent only in json format.
 
 ### Feature
 
-![Warrior feature](https://user-images.githubusercontent.com/101875465/215327794-035b1f21-13a5-49ae-aa62-1e3c72aa5d1d.png)
+![Warrior feature](https://user-images.githubusercontent.com/101875465/217470752-9120dde3-9d69-4681-83ab-aad37f57efc6.png)
 
 2. Thief
 
